@@ -25,7 +25,7 @@ additional:
 -
 
 technologies:
-- spring / spring boot ?
+- spring boot
 - web
 - security
 - thymeleaf -> vaadin
@@ -47,7 +47,6 @@ e-store:
 - catalog-service/
 - order-service/
 - payment-service/
-- user-service/
 - review-service/
 - auth-service/
 - monitoring/ (ELK Stack)
@@ -60,21 +59,8 @@ entities:
 - price
 - categories
 - sales
-2. User:
-- id
-- username
-- email
-- password
-- role
-- address
-- archive
-- phone
-3. Role: 
-- USER
-- GUEST
-- ADMIN
-- MANAGER
-4. Order:
+
+2. Order:
 - id
 - created date
 - last change date
@@ -83,10 +69,12 @@ entities:
 - user
 - status (NEW, CANCELED, PAID, CLOSED, RETURNED)
 - details (product, price, amount, comment)
-5. Category
+
+3. Category
 - id
 - title
-6. Bucket
+
+4. Bucket
 - id
 - user
 - details (product, amount) / product list
