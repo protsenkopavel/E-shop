@@ -10,14 +10,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 @Validated
 public class UserController {
 
     private final UserService userService;
-
     private final UserMapper userMapper;
+
+    public UserController(UserService userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
 
     @PutMapping
     public UserDto updateUser(@Validated(OnUpdate.class) @RequestBody UserDto userDto) {

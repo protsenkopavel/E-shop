@@ -3,13 +3,13 @@ package net.protsenko.domain;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
+import java.util.Set;
 
 @Data
 @Builder
 public class User {
 
-    private UUID id;
+    private Long id;
 
     private String name;
 
@@ -19,7 +19,7 @@ public class User {
 
     private String passwordConfirm;
 
-    private Role role;
+    private Set<Role> role;
 
     private Address address;
 
