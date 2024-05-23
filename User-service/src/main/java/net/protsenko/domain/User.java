@@ -9,7 +9,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Builder
 public class User {
 
     private Long id;

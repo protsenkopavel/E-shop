@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
 public class UserDto {
 
     @NotNull(message = "Id must not be null.", groups = OnCreate.class)
