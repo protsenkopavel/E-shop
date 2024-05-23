@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.protsenko.domain.Address;
 import net.protsenko.web.validation.OnCreate;
 import net.protsenko.web.validation.OnUpdate;
@@ -11,12 +13,13 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class UserDto {
 
     @NotNull(message = "Id must not be null.", groups = OnCreate.class)
-    private UUID id;
+    private Long id;
 
     @NotNull(message = "Name must not be null.", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "Name length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
