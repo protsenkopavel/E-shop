@@ -32,7 +32,6 @@ technologies:
 - jdbc -> hibernate / spring data jpa
 - postgres + redis + ?
 - flyway / liquibase ?
-- lombok
 - spring cloud ? (аркестрация и управление микросервисами)
 - zuul / spring cloud gateway (маршрутизация запросов)
 - kafka / rabbit (взаимодействие между сервисами)

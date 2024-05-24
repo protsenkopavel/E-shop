@@ -1,6 +1,5 @@
 package net.protsenko.web.controller;
 
-import lombok.RequiredArgsConstructor;
 import net.protsenko.domain.User;
 import net.protsenko.service.UserService;
 import net.protsenko.web.dto.UserDto;

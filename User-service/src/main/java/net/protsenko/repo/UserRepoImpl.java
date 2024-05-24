@@ -26,6 +26,7 @@ public class UserRepoImpl implements UserRepo {
             u.name as user_name,
             u.email as user_email,
             u.password as user_password,
+            u.address as user_address,
             ur.role as user_role_role
             FROM user u
             LEFT OUTER JOIN users_roles ur ON u.id = ur.user_id
@@ -37,6 +38,7 @@ public class UserRepoImpl implements UserRepo {
             u.name as user_name,
             u.email as user_email,
             u.password as user_password,
+            u.address as user_address,
             ur.role as user_role_role
             FROM user u
             LEFT OUTER JOIN users_roles ur ON u.id = ur.user_id
@@ -44,8 +46,8 @@ public class UserRepoImpl implements UserRepo {
             """;
 
     private final String SAVE = """
-            INSERT INTO users (user_id, user_name, user_email, user_password, user_role)
-            VALUES (?, ?, ?, ?, ?);
+            INSERT INTO users (user_id, user_name, user_email, user_password, user_role, user_address)
+            VALUES (?, ?, ?, ?, ?, ?);
             """;
 
     private final String UPDATE = """
@@ -53,6 +55,7 @@ public class UserRepoImpl implements UserRepo {
             SET user_name = ?,
             user_email = ?,
             user_password = ?,
+            user_address = ?,
             WHERE user_id = ?
             """;
 
@@ -99,6 +102,7 @@ public class UserRepoImpl implements UserRepo {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
+            ps.setString(4, user.getAddress());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -117,6 +121,7 @@ public class UserRepoImpl implements UserRepo {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
+            ps.setString(4, user.getAddress());
             ps.setLong(4, user.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
