@@ -23,26 +23,26 @@ public class UserRepoImpl implements UserRepo {
 
     private final String FIND_BY_ID = """
             SELECT u.id as user_id,
-            u.name as user_name,
-            u.email as user_email,
-            u.password as user_password,
-            u.address as user_address,
-            ur.role as user_role_role
-            FROM user u
-            LEFT OUTER JOIN users_roles ur ON u.id = ur.user_id
-            WHERE user_id = ?
+                   u.name as user_name,
+                   u.email as user_email,
+                   u.password as user_password,
+                   u.address as user_address,
+                   ur.role as user_role
+            FROM users u
+                     LEFT JOIN users_roles ur ON u.id = ur.user_id
+            WHERE u.id = ?
             """;
 
     private final String FIND_BY_EMAIL = """
             SELECT u.id as user_id,
-            u.name as user_name,
-            u.email as user_email,
-            u.password as user_password,
-            u.address as user_address,
-            ur.role as user_role_role
-            FROM user u
-            LEFT OUTER JOIN users_roles ur ON u.id = ur.user_id
-            WHERE user_id = ?
+                   u.name as user_name,
+                   u.email as user_email,
+                   u.password as user_password,
+                   u.address as user_address,
+                   ur.role as user_role
+            FROM users u
+                     LEFT JOIN users_roles ur ON u.id = ur.user_id
+            WHERE u.email = ?
             """;
 
     private final String SAVE = """
@@ -72,7 +72,10 @@ public class UserRepoImpl implements UserRepo {
     @Override
     public Optional<User> findById(Long userId) {
         try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(FIND_BY_ID);
+            PreparedStatement ps = conn.prepareStatement(
+                    FIND_BY_ID,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
             ps.setLong(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 return Optional.ofNullable(UserRowMapper.mapRow(rs));
@@ -85,7 +88,8 @@ public class UserRepoImpl implements UserRepo {
     @Override
     public Optional<User> findByEmail(String email) {
         try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(FIND_BY_EMAIL);
+            PreparedStatement ps = conn.prepareStatement(
+                    FIND_BY_EMAIL);
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
                 return Optional.ofNullable(UserRowMapper.mapRow(rs));
@@ -97,7 +101,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void save(User user) {
-        try (Connection conn = dataSourceConfig.getDataSource().getConnection()){
+        try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(SAVE, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
@@ -116,7 +120,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void update(User user) {
-        try (Connection conn = dataSourceConfig.getDataSource().getConnection()){
+        try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(UPDATE);
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
@@ -131,7 +135,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void delete(Long userId) {
-        try (Connection conn = dataSourceConfig.getDataSource().getConnection()){
+        try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(DELETE);
             ps.setLong(1, userId);
             ps.executeUpdate();
@@ -142,7 +146,7 @@ public class UserRepoImpl implements UserRepo {
 
     @Override
     public void insertUserRole(Long userId, Role role) {
-        try (Connection conn = dataSourceConfig.getDataSource().getConnection()){
+        try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(INSERT_USER_ROLE);
             ps.setLong(1, userId);
             ps.setString(2, role.name());

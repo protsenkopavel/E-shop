@@ -29,13 +29,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDto getById(@PathVariable Long id) {
+    public UserDto getById(@PathVariable("id") Long id) {
         User user = userService.getById(id);
         return userMapper.toDto(user);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable("id") Long id) {
         userService.delete(id);
     }
 

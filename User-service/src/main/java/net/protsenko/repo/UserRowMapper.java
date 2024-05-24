@@ -14,12 +14,12 @@ public class UserRowMapper {
         Set<Role> roles = new HashSet<>();
         try {
             while (rs.next()) {
-                roles.add(Role.valueOf(rs.getString("user_user_role")));
+                roles.add(Role.valueOf(rs.getString("user_role")));
             }
             rs.beforeFirst();
             if (rs.next()) {
                 User user = new User();
-                user.setId(rs.getLong("id"));
+                user.setId(rs.getLong("user_id"));
                 user.setName(rs.getString("user_name"));
                 user.setEmail(rs.getString("user_email"));
                 user.setPassword(rs.getString("user_password"));
