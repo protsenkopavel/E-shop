@@ -22,7 +22,8 @@ services:
 - Отзывы: система отзывов и рейтингов для товаров.
 
 additional:
--
+- ломбок отказался работать, выяснить
+- добавить postman запросы в проект
 
 technologies:
 - spring boot
@@ -31,7 +32,7 @@ technologies:
 - thymeleaf -> vaadin
 - jdbc -> hibernate / spring data jpa
 - postgres + redis + ?
-- flyway / liquibase ?
+- liquibase
 - spring cloud ? (аркестрация и управление микросервисами)
 - zuul / spring cloud gateway (маршрутизация запросов)
 - kafka / rabbit (взаимодействие между сервисами)
@@ -48,6 +49,7 @@ e-store:
 - payment-service/
 - review-service/
 - auth-service/
+- user-service/ +
 - monitoring/ (ELK Stack)
 - infrastructure/ (Docker, k8s, CI/CD)
 

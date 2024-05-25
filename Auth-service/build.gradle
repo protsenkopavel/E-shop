@@ -14,17 +14,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-devtools:3.2.5'
     implementation 'org.springframework.boot:spring-boot-starter-web:3.2.5'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:3.2.5'
-    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.5'
-    implementation 'org.springframework.security:spring-security-crypto:6.3.0'
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.2.5'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor:3.2.5'
     implementation 'org.postgresql:postgresql:42.7.3'
-    implementation 'org.liquibase:liquibase-core:4.28.0'
-
-    //mapper dto -> entity / entity -> dto
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
-
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

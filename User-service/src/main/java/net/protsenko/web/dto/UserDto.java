@@ -70,11 +70,11 @@ public class UserDto {
         this.passwordConfirm = passwordConfirm;
     }
 
-    public @NotNull(message = "Password must not be null.", groups = {OnCreate.class, OnUpdate.class}) String getAddress() {
+    public @NotNull(message = "Address must not be null.", groups = {OnCreate.class, OnUpdate.class}) String getAddress() {
         return address;
     }
 
-    public void setAddress(@NotNull(message = "Password must not be null.", groups = {OnCreate.class, OnUpdate.class}) String address) {
+    public void setAddress(@NotNull(message = "Address must not be null.", groups = {OnCreate.class, OnUpdate.class}) String address) {
         this.address = address;
     }
 }

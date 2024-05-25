@@ -33,7 +33,7 @@ public class UserRepoImpl implements UserRepo {
             WHERE u.id = ?
             """;
 
-    private final String FIND_BY_EMAIL = """
+    private final String FIND_BY_USERNAME = """
             SELECT u.id as user_id,
                    u.name as user_name,
                    u.email as user_email,
@@ -48,20 +48,6 @@ public class UserRepoImpl implements UserRepo {
     private final String SAVE = """
             INSERT INTO users (user_id, user_name, user_email, user_password, user_role, user_address)
             VALUES (?, ?, ?, ?, ?, ?);
-            """;
-
-    private final String UPDATE = """
-            UPDATE users
-            SET name = ?,
-            email = ?,
-            password = ?,
-            address = ?
-            WHERE id = ?
-            """;
-
-    private final String DELETE = """
-            DELETE FROM users
-            WHERE id = ?
             """;
 
     private final String INSERT_USER_ROLE = """
@@ -86,16 +72,16 @@ public class UserRepoImpl implements UserRepo {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByUsername(String username) {
         try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(
-                    FIND_BY_EMAIL);
-            ps.setString(1, email);
+                    FIND_BY_USERNAME);
+            ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
                 return Optional.ofNullable(UserRowMapper.mapRow(rs));
             }
         } catch (SQLException e) {
-            throw new ResourceNotFoundException("Exception while fetching user with email " + email);
+            throw new ResourceNotFoundException("Exception while fetching user with email " + username);
         }
     }
 
@@ -104,7 +90,7 @@ public class UserRepoImpl implements UserRepo {
         try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(SAVE, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getName());
-            ps.setString(2, user.getEmail());
+            ps.setString(2, user.getUsername());
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getAddress());
             ps.executeUpdate();
@@ -115,35 +101,6 @@ public class UserRepoImpl implements UserRepo {
             }
         } catch (SQLException e) {
             throw new ResourceNotFoundException("Exception while saving user " + user.getName());
-        }
-    }
-
-    @Override
-    public void update(User user) {
-        try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(UPDATE);
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getPassword());
-            ps.setString(4, user.getAddress());
-            ps.setLong(5, user.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage());
-            System.err.println("SQLState: " + e.getSQLState());
-            System.err.println("VendorError: " + e.getErrorCode());
-            throw new ResourceNotFoundException("Exception while updating user " + user.getName());
-        }
-    }
-
-    @Override
-    public void delete(Long userId) {
-        try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(DELETE);
-            ps.setLong(1, userId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new ResourceNotFoundException("Exception while deleting user with id " + userId);
         }
     }
 
