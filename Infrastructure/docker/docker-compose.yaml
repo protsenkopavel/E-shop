@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./User-service/Dockerfile
+    container_name: e-shop
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/users
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    ports:
+      - '8080:8080'
+
+  db:
+    image: postgres:16.3-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=users
+    volumes:
+      - ../../../User-service/src/main/resources/db-init:/docker-entrypoint-initdb.d
