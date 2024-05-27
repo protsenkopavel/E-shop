@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 
 public class UserDto {
 
-    @NotNull(message = "Id must not be null.", groups = OnCreate.class)
     private Long id;
 
     @NotNull(message = "Name must not be null.", groups = {OnCreate.class, OnUpdate.class})
@@ -17,7 +16,7 @@ public class UserDto {
 
     @NotNull(message = "Email must not be null.", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "Email length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
-    private String email;
+    private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Password must not be null.", groups = {OnCreate.class, OnUpdate.class})
@@ -30,11 +29,11 @@ public class UserDto {
     @NotNull(message = "Password must not be null.", groups = {OnCreate.class, OnUpdate.class})
     private String address;
 
-    public @NotNull(message = "Id must not be null.", groups = OnCreate.class) Long getId() {
+    public  Long getId() {
         return id;
     }
 
-    public void setId(@NotNull(message = "Id must not be null.", groups = OnCreate.class) Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,12 +45,12 @@ public class UserDto {
         this.name = name;
     }
 
-    public @NotNull(message = "Email must not be null.", groups = {OnCreate.class, OnUpdate.class}) @Length(max = 255, message = "Email length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class}) String getEmail() {
-        return email;
+    public @NotNull(message = "Email must not be null.", groups = {OnCreate.class, OnUpdate.class}) @Length(max = 255, message = "Email length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class}) String getUsername() {
+        return username;
     }
 
-    public void setEmail(@NotNull(message = "Email must not be null.", groups = {OnCreate.class, OnUpdate.class}) @Length(max = 255, message = "Email length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class}) String email) {
-        this.email = email;
+    public void setUsername(@NotNull(message = "Email must not be null.", groups = {OnCreate.class, OnUpdate.class}) @Length(max = 255, message = "Email length must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class}) String username) {
+        this.username = username;
     }
 
     public @NotNull(message = "Password must not be null.", groups = {OnCreate.class, OnUpdate.class}) String getPassword() {

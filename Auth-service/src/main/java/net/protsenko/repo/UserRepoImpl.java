@@ -75,7 +75,9 @@ public class UserRepoImpl implements UserRepo {
     public Optional<User> findByUsername(String username) {
         try (Connection conn = dataSourceConfig.getDataSource().getConnection()) {
             PreparedStatement ps = conn.prepareStatement(
-                    FIND_BY_USERNAME);
+                    FIND_BY_USERNAME,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
                 return Optional.ofNullable(UserRowMapper.mapRow(rs));

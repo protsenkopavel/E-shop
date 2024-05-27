@@ -1,9 +1,6 @@
 package net.protsenko.web.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ClaimsBuilder;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import net.protsenko.domain.Role;
@@ -28,18 +25,14 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
-
     private final UserDetailsService userDetailsService;
-
     private final UserService userService;
-
     private Key key;
 
-    public JwtTokenProvider(JwtProperties jwtProperties, UserDetailsService userDetailsService, UserService userService, Key key) {
+    public JwtTokenProvider(JwtProperties jwtProperties, UserDetailsService userDetailsService, UserService userService) {
         this.jwtProperties = jwtProperties;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
-        this.key = key;
     }
 
     @PostConstruct
@@ -48,39 +41,29 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(Long userId, String username, Set<Role> roles) {
-        ClaimsBuilder claimsBuilder = Jwts.claims().subject(username);
-
-        Claims claims = claimsBuilder.build();
-
-        claims.put("id", userId);
-        claims.put("roles", resolveRoles(roles));
-
         Date now = new Date();
         Date validity = new Date(now.getTime() + jwtProperties.getAccess());
 
         return Jwts.builder()
-                .claims(claims)
-                .issuedAt(now)
-                .expiration(validity)
-                .signWith(key)
+                .setSubject(username)
+                .claim("id", userId)
+                .claim("roles", resolveRoles(roles))
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public String createRefreshToken(Long userId, String username) {
-        ClaimsBuilder claimsBuilder = Jwts.claims().subject(username);
-
-        Claims claims = claimsBuilder.build();
-
-        claims.put("id", userId);
-
         Date now = new Date();
         Date validity = new Date(now.getTime() + jwtProperties.getRefresh());
 
         return Jwts.builder()
-                .claims(claims)
-                .issuedAt(now)
-                .expiration(validity)
-                .signWith(key)
+                .setSubject(username)
+                .claim("id", userId)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
