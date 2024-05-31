@@ -7,6 +7,8 @@ spring:
   liquibase:
     change-log: classpath:liquibase/db.changelog.yaml
     enabled: true
+  cassandra:
+    port: 8082
 security:
   jwt:
     secret: YWRzYWRzYWRhc2Rhc2R1ZGh1YXNodWRnc2FnZHNnYXlkeWlnYXNnaWRnaXNhZGlsYXNpZ3VkYXNkc2E=

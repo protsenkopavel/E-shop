@@ -7,4 +7,6 @@ spring:
   liquibase:
     change-log: classpath:liquibase/db.changelog.yaml
     enabled: true
+  cassandra:
+    port: 8080
 
